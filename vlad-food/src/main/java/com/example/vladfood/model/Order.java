@@ -1,7 +1,6 @@
 package com.example.vladfood.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,8 +17,10 @@ public class Order {
     private Long id;
 
     @Column(nullable = false)
+    @Setter
     private LocalDateTime orderTime;
 
+    @Setter
     private LocalDateTime deliveryTime;
 
     @Enumerated(EnumType.STRING)
@@ -27,12 +28,9 @@ public class Order {
 
     public void setOrderStatus(OrderStatus newStatus) {
         this.status = newStatus;
-
-        // Notify observers when the order status changes
         notifyObservers();
     }
 
-    // Assuming OrderStatus is an enum (NEW, IN_PROGRESS, DELIVERED, CANCELED)
     public enum OrderStatus {
         NEW, IN_PROGRESS, DELIVERED, CANCELED
     }
@@ -53,6 +51,7 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private Set<OrderItem> orderItems = new HashSet<>();
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private User customer;
@@ -61,8 +60,16 @@ public class Order {
     @JoinColumn(name = "deliverer_id")
     private User deliverer;
 
-    // ... Other getters and setters ...
 
+    // create order factory
+     public static Order createOrder(User customer, Restaurant restaurant) {
+        Order order = new Order();
+        order.setCustomer(customer);
+        order.setRestaurant(restaurant);
+        order.setOrderTime(LocalDateTime.now());
+        order.setOrderStatus(OrderStatus.NEW);
+        return order;
+    }
 
     // observer
     public void notifyObservers() {

@@ -2,8 +2,6 @@ package com.example.vladfood.model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "order_items")
 public class OrderItem {
@@ -22,5 +20,4 @@ public class OrderItem {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    // Getters and setters...
 }

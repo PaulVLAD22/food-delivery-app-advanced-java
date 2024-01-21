@@ -43,6 +43,12 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
 
+    public static User createUser(UserType userType) {
+        User user = new User();
+        user.setUserType(userType);
+        return user;
+    }
+
     // consumer
     public void sendOrderStatusUpdate(Order.OrderStatus newStatus) {
         if (userType == UserType.CUSTOMER) {
