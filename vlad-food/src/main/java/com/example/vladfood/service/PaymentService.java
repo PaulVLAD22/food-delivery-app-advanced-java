@@ -31,14 +31,28 @@ public class PaymentService {
     }
 
     public void shutdown() {
-        // Shutdown the thread pool gracefully
+        // Initiate a graceful shutdown
         paymentThreadPool.shutdown();
+
         try {
-            if (!paymentThreadPool.awaitTermination(10, java.util.concurrent.TimeUnit)) {
+            // Wait for a period to allow existing tasks to complete
+            Thread.sleep(60000); // 60 seconds
+
+            if (!paymentThreadPool.isTerminated()) {
+                // Attempt to stop all actively executing tasks
                 paymentThreadPool.shutdownNow();
+
+                // Additional waiting period for tasks to respond to cancellation
+                Thread.sleep(60000); // 60 seconds
+
+                if (!paymentThreadPool.isTerminated()) {
+                    System.err.println("Payment thread pool did not terminate");
+                }
             }
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ie) {
+            // (Re-)Cancel if the current thread also interrupted
             paymentThreadPool.shutdownNow();
+            // Preserve interrupt status
             Thread.currentThread().interrupt();
         }
     }

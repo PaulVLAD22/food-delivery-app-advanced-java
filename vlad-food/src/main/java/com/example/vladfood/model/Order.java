@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -62,12 +63,13 @@ public class Order {
 
 
     // create order factory
-     public static Order createOrder(User customer, Restaurant restaurant) {
+     public static Order createOrder(User customer, Restaurant restaurant, Set<OrderItem> orderItems) {
         Order order = new Order();
         order.setCustomer(customer);
         order.setRestaurant(restaurant);
         order.setOrderTime(LocalDateTime.now());
         order.setOrderStatus(OrderStatus.NEW);
+        order.setOrderItems(orderItems);
         return order;
     }
 

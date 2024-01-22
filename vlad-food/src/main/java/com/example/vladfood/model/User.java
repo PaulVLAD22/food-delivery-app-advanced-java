@@ -34,7 +34,7 @@ public class User {
 
     // Assuming UserType is an enum (CUSTOMER, RESTAURANT_OWNER, DELIVERY)
     public enum UserType {
-        CUSTOMER, RESTAURANT_OWNER, DELIVERY
+        CUSTOMER, DELIVERY
     }
 
     @OneToMany(mappedBy = "user")
@@ -43,8 +43,13 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
 
-    public static User createUser(UserType userType) {
-        User user = new User();
+    public static User createUser(UserType userType, String username, String password, String fullName, String email, String address) {
+        User user = new User ();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setFullName(fullName);
+        user.setEmail(email);
+        user.setAddress(address);
         user.setUserType(userType);
         return user;
     }
