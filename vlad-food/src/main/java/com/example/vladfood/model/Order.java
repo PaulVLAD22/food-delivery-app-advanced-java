@@ -1,12 +1,14 @@
 package com.example.vladfood.model;
 
+import com.example.vladfood.dto.OrderDto;
+import com.example.vladfood.service.RestaurantService;
+import com.example.vladfood.service.UserService;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -57,15 +59,17 @@ public class Order {
     @JoinColumn(name = "customer_id", nullable = false)
     private User customer;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "deliverer_id")
     private User deliverer;
 
 
     // create order factory
-     public static Order createOrder(User customer, Restaurant restaurant, Set<OrderItem> orderItems) {
+    public static Order createOrder(User customer, User deliverer, Restaurant restaurant, Set<OrderItem> orderItems) {
         Order order = new Order();
         order.setCustomer(customer);
+        order.setDeliverer(deliverer);
         order.setRestaurant(restaurant);
         order.setOrderTime(LocalDateTime.now());
         order.setOrderStatus(OrderStatus.NEW);
@@ -85,6 +89,19 @@ public class Order {
                 deliverer.sendOrderStatusUpdate(this.getStatus());
             }
         }
+    }
+
+    //TODO:: implement
+    public Order dtoToModel(OrderDto createOrderDto, UserService userService, RestaurantService restaurantService) {
+        Order order = new Order();
+        var customer = userService.findByUsername(createOrderDto.getCustomerUsername());
+        var deliverer = userService.getFreeDeliverer();
+        var restaurant = restaurantService.findRestaurantByName(createOrderDto.getRestaurantName());
+        Set<OrderItem> orderItems = createOrderDto.getOrderItems().stream().map(
+                OrderItem::dtoToModel
+        ).toSet();
+        createOrder(customer, deliverer, restaurant, orderItems);
+        return order;
     }
 
 }

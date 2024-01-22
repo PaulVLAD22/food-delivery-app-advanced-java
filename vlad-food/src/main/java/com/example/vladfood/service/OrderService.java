@@ -1,6 +1,6 @@
 package com.example.vladfood.service;
 
-import com.example.vladfood.model.Order;
+import com.example.vladfood.dto.OrderDto;
 import com.example.vladfood.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,10 +12,10 @@ public class OrderService {
     private final PaymentService paymentService;
 
     // generate a create order method
-    public void createOrder(Order order) {
+    public void createOrder(OrderDto order) {
         // TODO:: testeaza process payment
-        orderRepository.save(order);
-        paymentService.processPayment(order);
+//        orderRepository.save(order);
+//        paymentService.processPayment(order);
     }
 
 }

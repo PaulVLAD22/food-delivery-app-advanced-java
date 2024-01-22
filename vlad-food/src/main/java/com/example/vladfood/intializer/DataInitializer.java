@@ -68,9 +68,12 @@ public class DataInitializer implements CommandLineRunner {
         );
         var delivery1 = User.createUser(User.UserType.DELIVERY,
                 "delivery1",  "pass1", "Iran Bahur", "email3@email.com","address3");
+
+        var delivery2 = User.createUser(User.UserType.DELIVERY,
+                "delivery2",  "pass2", "Iran Bahur2", "email4@email.com","address4");
         userRepository.save(customer1);
         userRepository.save(customer2);
-        userRepository.save(delivery1);
+        userRepository.save(delivery2);
     }
 }
 

@@ -39,31 +39,6 @@ public class PostStartupExecutor implements ApplicationListener<ContextRefreshed
 
     }
 
-    List<OrderItem> getSampleOrderItems() {
-        return List.of();
-    }
-
-    User getSampleCustomer() {
-        return userService.findByUsername("customer1");
-    }
-
-    User getSecondSampleCustomer(){
-        return userService.findByUsername("customer2");
-    }
-
-    User getDeliveryPerson() {
-        return userService.findByUsername("delivery1");
-    }
-
-    Restaurant getSampleRestaurant() {
-        return restaurantService.findRestaurantByName("Restaurant 1");
-    }
-
-    Order generateSampleOrder() {
-        var orderItems = getSampleOrderItems();
-        // return Order
-        return new Order();
-    }
 
 
 }
