@@ -42,5 +42,10 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     private List<Review> reviews = new ArrayList<>();
 
+    public void sendOrderStatusUpdate(Order.OrderStatus newStatus) {
+        if (newStatus == Order.OrderStatus.IN_PROGRESS) {
+            System.out.println("Restaurant starts preparing the food");
+        }
+    }
     // Getters and setters...
 }

@@ -1,10 +1,7 @@
 package com.example.vladfood.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 import java.util.Set;
@@ -28,9 +25,11 @@ public class MenuItem {
     @Column(nullable = false)
     private Double price;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
+
 
     @OneToMany(mappedBy = "menuItem")
     private Set<OrderItem> orderItems;

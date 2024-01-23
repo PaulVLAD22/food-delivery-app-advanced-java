@@ -1,6 +1,7 @@
 package com.example.vladfood.service;
 
 import com.example.vladfood.model.Order;
+import com.example.vladfood.model.OrderItem;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutorService;
@@ -10,13 +11,23 @@ import java.util.concurrent.Executors;
 public class PaymentService {
     private final ExecutorService paymentThreadPool = Executors.newFixedThreadPool(5);
 
+    private int calculateOrderPrice(Order order) {
+        int price = 0;
+        for (OrderItem orderItem : order.getOrderItems()) {
+            price += orderItem.getMenuItem().getPrice() * orderItem.getQuantity();
+        }
+        return price;
+
+    }
+
     public void processPayment(Order order) {
         if (order.getStatus() == Order.OrderStatus.NEW) {
             // Submit a payment processing task to the thread pool
             paymentThreadPool.submit(() -> {
                 try {
-                    // Simulate payment processing time (2 minutes)
-                    Thread.sleep(120000);
+                    Thread.sleep(5000);
+                    // Simulate payment processing time equal to order price
+//                    Thread.sleep(calculateOrderPrice(order));
 
                     // Update order status to IN_PROGRESS
                     order.setOrderStatus(Order.OrderStatus.IN_PROGRESS);
@@ -30,31 +41,6 @@ public class PaymentService {
         }
     }
 
-    public void shutdown() {
-        // Initiate a graceful shutdown
-        paymentThreadPool.shutdown();
 
-        try {
-            // Wait for a period to allow existing tasks to complete
-            Thread.sleep(60000); // 60 seconds
-
-            if (!paymentThreadPool.isTerminated()) {
-                // Attempt to stop all actively executing tasks
-                paymentThreadPool.shutdownNow();
-
-                // Additional waiting period for tasks to respond to cancellation
-                Thread.sleep(60000); // 60 seconds
-
-                if (!paymentThreadPool.isTerminated()) {
-                    System.err.println("Payment thread pool did not terminate");
-                }
-            }
-        } catch (InterruptedException ie) {
-            // (Re-)Cancel if the current thread also interrupted
-            paymentThreadPool.shutdownNow();
-            // Preserve interrupt status
-            Thread.currentThread().interrupt();
-        }
-    }
 }
 

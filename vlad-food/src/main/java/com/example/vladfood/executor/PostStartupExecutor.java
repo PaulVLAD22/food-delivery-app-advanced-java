@@ -1,9 +1,5 @@
 package com.example.vladfood.executor;
 
-import com.example.vladfood.model.Order;
-import com.example.vladfood.model.OrderItem;
-import com.example.vladfood.model.Restaurant;
-import com.example.vladfood.model.User;
 import com.example.vladfood.service.OrderService;
 import com.example.vladfood.service.RestaurantService;
 import com.example.vladfood.service.UserService;
@@ -11,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -24,22 +18,7 @@ public class PostStartupExecutor implements ApplicationListener<ContextRefreshed
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         System.out.println("Application Logic Starting...");
-        User customer1 = getSampleCustomer();
-        User customer2 = getSecondSampleCustomer();
-        User deliveryPerson = getDeliveryPerson();
-        Restaurant restaurant = getSampleRestaurant();
-
-        //TODO :: implement
-        var order = generateSampleOrder();
-        orderService.createOrder(order);
-        // check that updating status of order works (observer pattern)
-        // make sure order got delivered
-        // leave reviews from customers to restaurant - check that they have an order with status FINISHED before letting them!
-
-
     }
-
-
 
 }
 

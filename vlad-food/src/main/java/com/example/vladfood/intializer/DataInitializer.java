@@ -27,14 +27,13 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         var restaurant1 = Restaurant.builder()
-                .name("Restaurant 1")
+                .name("restaurant1")
                 .description("Restaurant 1 description")
                 .address("Restaurant 1 address")
                 .build();
         restaurantRepository.save(
                 restaurant1
         );
-        System.out.println(restaurant1);
 
         menuItemRepository.save(
                 MenuItem.builder()
@@ -61,18 +60,19 @@ public class DataInitializer implements CommandLineRunner {
                         .build()
         );
         var customer1 = User.createUser(User.UserType.CUSTOMER,
-                "customer1",  "pass1", "Vlad Paul", "email1@email.com","address1");
+                "customer1", "pass1", "Vlad Paul", "email1@email.com", "address1");
         var customer2 = User.createUser(
                 User.UserType.CUSTOMER,
-                "customer2",  "pass1", "Nume Prenume", "email2@email.com","address2"
+                "customer2", "pass1", "Nume Prenume", "email2@email.com", "address2"
         );
         var delivery1 = User.createUser(User.UserType.DELIVERY,
-                "delivery1",  "pass1", "Iran Bahur", "email3@email.com","address3");
+                "delivery1", "pass1", "Iran Bahur", "email3@email.com", "address3");
 
         var delivery2 = User.createUser(User.UserType.DELIVERY,
-                "delivery2",  "pass2", "Iran Bahur2", "email4@email.com","address4");
+                "delivery2", "pass2", "Iran Bahur2", "email4@email.com", "address4");
         userRepository.save(customer1);
         userRepository.save(customer2);
+        userRepository.save(delivery1);
         userRepository.save(delivery2);
     }
 }
