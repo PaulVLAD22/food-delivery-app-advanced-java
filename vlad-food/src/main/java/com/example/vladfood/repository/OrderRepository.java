@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface OrderRepository  extends JpaRepository<Order, Long>{
-    @Query(value = "SELECT o FROM Order o WHERE o.customer.username = ?1 AND o.status = 'ACTIVE'")
+public interface OrderRepository extends JpaRepository<Order, Long> {
+    @Query(value = "SELECT o FROM Order o WHERE o.customer.username = ?1 AND o.status != 'DELIVERED'")
     Optional<Order> findActiveOrderByUsername(String customerUsername);
 }

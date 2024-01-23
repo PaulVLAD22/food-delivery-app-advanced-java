@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
-    @Query(value = "SELECT u FROM User u WHERE u.userType = 'DELIVERY' AND u.id NOT IN (SELECT o.deliverer.id FROM Order o WHERE o.status = 'DELIVERED') ")
+    @Query(value = "SELECT u FROM User u WHERE u.userType = 'DELIVERY' AND u.id NOT IN (SELECT o.deliverer.id FROM Order o WHERE o.status != 'DELIVERED') ")
     List<User> getFreeDeliverer(Pageable pageable);
 
 }

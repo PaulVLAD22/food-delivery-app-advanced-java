@@ -18,7 +18,6 @@ public class OrderService {
     public void createOrder(OrderDto orderDto) {
         checkUserAlreadyHasActiveOrder(orderDto.getCustomerUsername());
         var order = Order.dtoToModel(orderDto, userService, restaurantService, menuItemService);
-        System.out.println(order);
         orderRepository.save(order);
         paymentService.processPayment(order);
     }

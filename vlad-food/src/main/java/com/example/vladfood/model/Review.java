@@ -1,10 +1,11 @@
 package com.example.vladfood.model;
 
 import jakarta.persistence.*;
+import lombok.Setter;
 
-import java.util.List;
 @Entity
 @Table(name = "reviews")
+@Setter
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
